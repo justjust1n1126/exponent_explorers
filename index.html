@@ -17,6 +17,15 @@
     <h1>Exponent Explorers</h1>
     <p>This site showcases my PowerShell school project, now as an interactive quiz.</p>
     <p>Your answer should be simplified (for example, 5^2 into 25. Exponents can not be written. </p>
+    <p>
+        1. Product of Powers Rule: When multiplying exponents with the same base, add the powers: aᵐ * aⁿ = aᵐ⁺ⁿ.<br>
+        2. Quotient of Powers Rule: When dividing exponents with the same base, subtract the powers: aᵐ / aⁿ = aᵐ⁻ⁿ.<br>
+        3. Power of a Power Rule: When raising a power to another power, multiply the exponents: (aᵐ)ⁿ = aᵐⁿ.<br>
+        4. Power of a Product Rule: When raising a product to a power, distribute the power to each factor: (ab)ᵐ = aᵐbᵐ.<br>
+        5. Power of a Quotient Rule: When raising a quotient to a power, distribute the power to both the numerator and the denominator: (a/b)ᵐ = aᵐ/bᵐ.<br>
+        6. Zero Exponent Rule: Any non-zero base raised to the power of zero equals one: a⁰ = 1.<br>
+        7. Negative Exponent Rule: A negative exponent indicates the reciprocal of the base raised to the positive exponent: a⁻ᵐ = 1/aᵐ. <br>
+    </p>
     <form id="quizForm">
         <div class="question">
             <label>1. What is 5<sup>3</sup> × 5<sup>4</sup>? 
@@ -46,14 +55,6 @@
         <button type="submit">Submit Answers</button>
     </form>
     <div class="result" id="result"></div>
-    <code>
-<!-- PowerShell code for your reference -->
-function product_rule($a, $b) { return $a**$b }
-function quotient_rule($a, $b) { return $a**$b }
-function power_rule($a, $b) { return $a**$b }
-function zero_rule($a) { return $a**0 }
-function negative_rule($a, $b) { return 1/($a**$b) }
-    </code>
     <script>
         document.getElementById('quizForm').addEventListener('submit', function(e) {
             e.preventDefault();
