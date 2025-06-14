@@ -4,57 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exponent Explorers</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        h1 { color: #2c3e50; }
+        .question { margin: 20px 0; }
+        .result { font-weight: bold; margin-top: 20px; }
+        button { margin-top: 10px; }
+        code { background: #f4f4f4; display: block; padding: 10px; margin-top: 30px; }
+    </style>
 </head>
 <body>
     <h1>Exponent Explorers</h1>
-    <p>This site showcases my PowerShell school project.</p>
-    <pre><code>
-function product_rule {
-    param($a, $b)
-    return $a**$b
-}
-
-function quotient_rule {
-    param($a, $b)
-    return $a**$b
-}
-
-function power_rule {
-    param($a, $b)
-    return $a**$b
-}
-
-function zero_rule {
-    param($a)
-    return $a**0
-}
-
-function negative_rule {
-    param($a, $b)
-    return 1/($a**$b)
-}
-
-$questions = @(
-    ("1. What is 5^3 × 5^4? ", product_rule(5, 3 + 4)),
-    ("2. What is 10^5 ÷ 10^2? ", quotient_rule(10, 5 - 2)),
-    ("3. What is (3^2)^4? ", power_rule((3**2), 4)),
-    ("4. What is 7^0? ", zero_rule(7)),
-    ("5. What is 2^-3? ", negative_rule(2, 3))
-)
-
-$score = 0
-
-foreach ($question in $questions) {
-    $user_answer = Read-Host $question[0]
-    if ($user_answer -eq $question[1]) {
-        Write-Host "Correct!"
-        $score++
-    } else {
-        Write-Host ("Incorrect. The correct answer is " + $question[1])
-    }
-}
-
-Write-Host ("You got " + $score + "/5 questions correct. Well done!")
-    </code></pre>
+    <p>This site showcases my PowerShell school project, now as an interactive quiz</p>
+    <form id="quizForm">
+        <div class="question">
+            <label>1. What is 5<sup>3</sup> × 5<sup>4</sup>? 
+                <input type="number" step="any" name="q1" required>
+            </label>
+        </div>
+        <div class="question">
+            <label>2. What is 10<sup>5</sup> ÷ 10<sup>2</sup>? 
+                <input type="number" step="any" name="q2" required>
+            </label>
+        </div>
+        <div class="question">
+            <label>3. What is (3<sup>2</sup>)<sup>4</sup>? 
+                <input type="number" step="any" name="q3" required>
+            </label>
+        </div>
+        <div class="question">
+            <label>4. What is 7<sup>0</sup>? 
+                <input type="number" step="any" name="q4" required>
+            </label>
+        </div>
+        <div class="question">
+            <label>5. What is 2<sup>-3</sup>? 
+                <input type="number" step="any" name="q5" required>
+            </label>
+        </div>
+        <button type="submit">Submit Answers</button>
+    </form>
+    <div class="result" id="result"></div>
+    <code>
+<!-- PowerShell code for your reference -->
+function product_rule($a, $b) { return $a**$b }
+function quotient_rule($a, $b) { return $a**$b }
+function power_rule($a, $b) { return $a**$b }
+function zero_rule($a) { return $a**0 }
+function negative_rule($a, $b) { return 1/($a**$b) }
+    </code>
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const answers = [
+                Math.pow(5, 3+4),    // 5^7 = 78125
+                Math.pow(10, 5-2),   // 10^3 = 1000
+                Math.pow((3**2), 4), // 9^4 = 6561
+                Math.pow(7, 0),      // 1
+                1 / Math.pow(2, 3)   // 1/8 = 0.125
+            ];
+            const form = e.target;
+            let score = 0;
+            let output = "";
+            for (let i = 0; i < answers.length; i++) {
+                let userAnswer = parseFloat(form['q'+(i+1)].value);
+                // Accept small float errors for question 5
+                let correct = i === 4 ? Math.abs(userAnswer - answers[i]) < 0.0001 : userAnswer === answers[i];
+                if (correct) {
+                    score++;
+                    output += `Question ${i+1}: Correct!<br>`;
+                } else {
+                    output += `Question ${i+1}: Incorrect. The correct answer is ${answers[i]}<br>`;
+                }
+            }
+            output += `<br>You got ${score}/5 questions correct. Well done!`;
+            document.getElementById('result').innerHTML = output;
+        });
+    </script>
 </body>
 </html>
